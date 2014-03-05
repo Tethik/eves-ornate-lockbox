@@ -1,8 +1,8 @@
+from tokenauth import UserTokenAuth
+	
+
 SERVER_NAME = '127.0.0.1:5000'
-DOMAIN = {
-    'users': {},
-    'files': {},
-}
+DEBUG = True
 
 # Use these to connect to a specific mongo instance.
 # Otherwise default localhost will be used.
@@ -20,3 +20,54 @@ DOMAIN = {
 # Enable reads (GET), edits (PATCH), replacements (PUT) and deletes of
 # individual items  (defaults to read-only item access).
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
+
+
+user_schema = {
+	'username': {
+		'type': 'string',
+		'required': True,
+		'unique': True
+	}
+}
+
+users = {
+	'schema': user_schema,
+	'authentication': UserTokenAuth
+}
+
+
+files_schema = {
+    # Schema definition, based on Cerberus grammar. Check the Cerberus project
+    # (https://github.com/nicolaiarocci/cerberus) for details.   
+	'name': {
+		'type': 'string',
+		'minlength': 1,
+		'maxlength': 200,
+		'required': True,
+	},
+	'content': {
+		'type': 'media'
+	},		
+	
+	# username basis
+	'uploaded_by': {
+		'type': 'string',
+		'required': True,
+		'unique': True
+	},
+	
+	'accessible_by': {
+		'type': 'list', 
+		'items': [{'type': 'string'}],
+		'required': True,
+	}
+}
+
+files = {
+	'schema': files_schema
+}
+
+DOMAIN = {
+    'users': users,
+    'files': files,
+}

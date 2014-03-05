@@ -1,4 +1,5 @@
 from eve import Eve
+from radiusauth import RadiusAuth
 
-app = Eve()
+app = Eve(auth=RadiusAuth)
 app.run()
