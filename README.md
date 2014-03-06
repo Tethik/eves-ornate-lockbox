@@ -3,12 +3,25 @@ eves-ornate-lockbox
 
 Basic File Storage using the Eve Rest API framework.
 
+Requirements:
+* python 2.7
+* mongodb
+* python-eve
+* pyrad (see installation for specific git repo)
 
-Requires Eve: http://python-eve.org/
-Which you can install via: `pip install eve`
+Requirements Installation
+===================
 
-Mongodb is also required.
+This guides you through installing the requirements on a typical
+linux machine.
 
-pyrad for radius authentication.
-https://pypi.python.org/pypi/pyrad
-`pip install pyrad`
+Install mongodb via:
+`apt-get install mongodb` 
+
+Install eve via:
+`pip install eve`
+
+Clone the following repository: https://github.com/andreynpetrov/pyrad
+`git clone https://github.com/andreynpetrov/pyrad`
+Install via:
+`python pyrad/setup.py`
