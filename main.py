@@ -8,8 +8,6 @@ from flask import session
 def pre_get_callback(resource, request):
 	auth = request.headers['Authorization'].split(" ")[1]	
 	session["username"] = base64.standard_b64decode(auth).split(":")[0]	
-	request.url += '?where=accessible_by=="'+session["username"]+'"'
-	
 	
 def before_returning_files(documents):
 	documents[:] = [doc for doc in documents if (doc["uploaded_by"] == session["username"] or ("accessible_by" in doc.keys() and session["username"] in doc["accessible_by"]))]		
