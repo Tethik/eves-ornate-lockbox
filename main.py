@@ -22,7 +22,6 @@ def on_fetch_item_file(_id, document):
 
 #~ app = Eve(auth=RadiusAuth)
 app = Eve(auth=DummyAuth)
-#~ app.secret_key = "asdasdbi0a78b0adb"
 app.on_pre_GET += pre_get_callback
 app.on_pre_POST += pre_get_callback
 app.on_pre_PUT += pre_get_callback

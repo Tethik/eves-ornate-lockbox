@@ -1,4 +1,4 @@
-from tokenauth import UserTokenAuth
+from tokenauth import TokenOverrideAuth
 	
 
 SERVER_NAME = '127.0.0.1:5000'
@@ -32,7 +32,8 @@ user_schema = {
 
 users = {
 	'schema': user_schema,
-	#~ 'authentication': UserTokenAuth
+	'item_methods': ['GET','DELETE'],
+	'authentication': TokenOverrideAuth(),
 }
 
 
@@ -58,7 +59,10 @@ files_schema = {
 }
 
 files = {
-	'schema': files_schema
+	'schema': files_schema,
+	'datasource': {
+        'projection': {'content': 0 }
+	}    
 }
 
 DOMAIN = {

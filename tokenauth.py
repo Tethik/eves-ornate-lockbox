@@ -1,9 +1,13 @@
-from eve.auth import TokenAuth
+from eve.auth import BasicAuth
+from dummyauth import DummyAuth
 
 adminsecretkey = "secret"
 
-class UserTokenAuth(TokenAuth):
-    def check_auth(self, token, allowed_roles, resource, method): 
-		if method == "GET":
-			return True		
-		return token == adminsecretkey
+class TokenOverrideAuth(BasicAuth):
+	normal_auth = DummyAuth()
+	
+	def check_auth(self, username, password, allowed_roles, resource, method):
+		if username == adminsecretkey:
+			return True	
+		return method == "GET" and self.normal_auth.check_auth(username, password, allowed_roles, resource, method)		
+		
