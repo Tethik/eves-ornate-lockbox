@@ -1,29 +1,27 @@
 from eve import Eve
 from radiusauth import RadiusAuth
 import base64 
-from flask import session
-
-
+from flask import g
 	
 def pre_get_callback(resource, request):
-	auth = request.headers['Authorization'].split(" ")[1]	
-	session["username"] = base64.standard_b64decode(auth).split(":")[0]	
+	auth = request.headers['Authorization'].split(" ")[1]
+	g.username = base64.standard_b64decode(auth).split(":")[0]		
+	#~ session["username"] = base64.standard_b64decode(auth).split(":")[0]	
 	
 def before_returning_files(documents):
-	documents[:] = [doc for doc in documents if (doc["uploaded_by"] == session["username"] or ("accessible_by" in doc.keys() and session["username"] in doc["accessible_by"]))]		
+	documents[:] = [doc for doc in documents if (doc["uploaded_by"] == g.username or ("accessible_by" in doc.keys() and g.username in doc["accessible_by"]))]		
 	
 def before_insert_files(documents):
 	for doc in documents:
-		print doc["uploaded_by"]
-		doc["uploaded_by"] = session["username"]	
+		doc["uploaded_by"] = g.username	
 	
 def on_fetch_item_file(_id, document):
 	print _id, document
-	if not ("accessible_by" in doc.keys() and session["username"] in doc["accessible_by"]) and not session["username"] in document["uploaded_by"]:
+	if not ("accessible_by" in doc.keys() and g.username in doc["accessible_by"]) and not g.username in document["uploaded_by"]:
 		abort(401) 
 
 app = Eve(auth=RadiusAuth)
-app.secret_key = "asdasdbi0a78b0adb"
+#~ app.secret_key = "asdasdbi0a78b0adb"
 app.on_pre_GET += pre_get_callback
 app.on_pre_POST += pre_get_callback
 app.on_pre_PUT += pre_get_callback
