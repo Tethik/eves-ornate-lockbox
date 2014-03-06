@@ -1,5 +1,6 @@
 from eve import Eve
 from radiusauth import RadiusAuth
+from dummyauth import DummyAuth
 import base64 
 from flask import g
 	
@@ -16,11 +17,11 @@ def before_insert_files(documents):
 		doc["uploaded_by"] = g.username	
 	
 def on_fetch_item_file(_id, document):
-	print _id, document
 	if not ("accessible_by" in doc.keys() and g.username in doc["accessible_by"]) and not g.username in document["uploaded_by"]:
-		abort(401) 
+		abort(401, "You don't have access to this file.") 
 
-app = Eve(auth=RadiusAuth)
+#~ app = Eve(auth=RadiusAuth)
+app = Eve(auth=DummyAuth)
 #~ app.secret_key = "asdasdbi0a78b0adb"
 app.on_pre_GET += pre_get_callback
 app.on_pre_POST += pre_get_callback

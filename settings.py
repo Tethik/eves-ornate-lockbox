@@ -32,7 +32,7 @@ user_schema = {
 
 users = {
 	'schema': user_schema,
-	'authentication': UserTokenAuth
+	#~ 'authentication': UserTokenAuth
 }
 
 
