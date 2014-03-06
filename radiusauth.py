@@ -10,12 +10,9 @@ class RadiusAuth(BasicAuth):
 			  dict=Dictionary("/usr/share/freeradius/dictionary"))
 
 		req=srv.CreateAuthPacket(code=pyrad.packet.AccessRequest,
-					  User_Name=username, NAS_Identifier="")
-		#~ req["Username"]="testing"
+					  User_Name=username, NAS_Identifier="")		
 		req["Password"]=req.PwCrypt(password)
 
 		reply=srv.SendPacket(req)
-		if reply.code==pyrad.packet.AccessAccept:
-			return True
-		else:
-			return False
+		return reply.code == pyrad.packet.AccessAccept
+			

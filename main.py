@@ -1,5 +1,39 @@
 from eve import Eve
 from radiusauth import RadiusAuth
+import base64 
+from flask import session
+
+
+	
+def pre_get_callback(resource, request):
+	auth = request.headers['Authorization'].split(" ")[1]	
+	session["username"] = base64.standard_b64decode(auth).split(":")[0]	
+	request.url += '?where=accessible_by=="'+session["username"]+'"'
+	
+	
+def before_returning_files(documents):
+	documents[:] = [doc for doc in documents if (doc["uploaded_by"] == session["username"] or ("accessible_by" in doc.keys() and session["username"] in doc["accessible_by"]))]		
+	
+def before_insert_files(documents):
+	for doc in documents:
+		print doc["uploaded_by"]
+		doc["uploaded_by"] = session["username"]	
+	
+def on_fetch_item_file(_id, document):
+	print _id, document
+	if not ("accessible_by" in doc.keys() and session["username"] in doc["accessible_by"]) and not session["username"] in document["uploaded_by"]:
+		abort(401) 
 
 app = Eve(auth=RadiusAuth)
+app.secret_key = "asdasdbi0a78b0adb"
+app.on_pre_GET += pre_get_callback
+app.on_pre_POST += pre_get_callback
+app.on_pre_PUT += pre_get_callback
+app.on_pre_DELETE += pre_get_callback
+app.on_pre_PATCH += pre_get_callback
+
+app.on_fetch_resource_files += before_returning_files
+app.on_insert_files += before_insert_files
+app.on_replace_files += before_insert_files
+app.on_update_files += before_insert_files
 app.run()

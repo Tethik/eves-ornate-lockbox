@@ -15,7 +15,7 @@ DEBUG = True
 # Enable reads (GET), inserts (POST) and DELETE for resources/collections
 # (if you omit this line, the API will default to ['GET'] and provide
 # read-only access to the endpoint).
-#~ RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
+RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 
 # Enable reads (GET), edits (PATCH), replacements (PUT) and deletes of
 # individual items  (defaults to read-only item access).
@@ -41,8 +41,6 @@ files_schema = {
     # (https://github.com/nicolaiarocci/cerberus) for details.   
 	'name': {
 		'type': 'string',
-		'minlength': 1,
-		'maxlength': 200,
 		'required': True,
 	},
 	'content': {
@@ -51,15 +49,11 @@ files_schema = {
 	
 	# username basis
 	'uploaded_by': {
-		'type': 'string',
-		'required': True,
-		'unique': True
-	},
-	
+		'type': 'string'
+	},	
 	'accessible_by': {
 		'type': 'list', 
-		'items': [{'type': 'string'}],
-		'required': True,
+		'items': [{'type': 'string'}]
 	}
 }
 
