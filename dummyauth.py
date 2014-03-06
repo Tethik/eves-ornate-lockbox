@@ -8,4 +8,4 @@ class DummyAuth(BasicAuth):
 		# etc..		
 	}
 	def check_auth(self, username, password, allowed_roles, resource, method):
-		return self.users[username] == password;
+		return username in self.users.keys() and self.users[username] == password;

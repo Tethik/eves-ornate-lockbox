@@ -32,7 +32,6 @@ user_schema = {
 
 users = {
 	'schema': user_schema,
-	'item_methods': ['GET','DELETE'],
 	'authentication': TokenOverrideAuth(),
 }
 
@@ -50,7 +49,8 @@ files_schema = {
 	
 	# username basis
 	'uploaded_by': {
-		'type': 'string'
+		'type': 'string',
+		'required': True,
 	},	
 	'accessible_by': {
 		'type': 'list', 
@@ -60,9 +60,6 @@ files_schema = {
 
 files = {
 	'schema': files_schema,
-	'datasource': {
-        'projection': {'content': 0 }
-	}    
 }
 
 DOMAIN = {
