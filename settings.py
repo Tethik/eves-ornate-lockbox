@@ -27,6 +27,9 @@ user_schema = {
 		'type': 'string',
 		'required': True,
 		'unique': True
+	},
+	'public_key': {
+		'type': 'media'		
 	}
 }
 
