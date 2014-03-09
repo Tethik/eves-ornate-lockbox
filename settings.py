@@ -49,12 +49,13 @@ files_schema = {
 	
 	# username basis
 	'uploaded_by': {
-		'type': 'string',
-		'required': True,
+		'type': 'string',		
 	},	
 	'accessible_by': {
-		'type': 'list', 
-		'items': [{'type': 'string'}]
+		'type': 'string',
+		'required': True
+		#~ 'type': 'list', 
+		#~ 'items': [{'type': 'string'}]
 	}
 }
 

@@ -10,14 +10,14 @@ def pre_get_callback(resource, request):
 	#~ session["username"] = base64.standard_b64decode(auth).split(":")[0]	
 	
 def before_returning_files(documents):
-	documents[:] = [doc for doc in documents if ("uploaded_by" in doc.keys() and doc["uploaded_by"] == g.username) or ("accessible_by" in doc.keys() and g.username in doc["accessible_by"])]		
+	documents[:] = [doc for doc in documents if ("uploaded_by" in doc.keys() and doc["uploaded_by"] == g.username) or ("accessible_by" in doc.keys() and g.username == doc["accessible_by"])]		
 	
 def before_insert_files(documents):
 	for doc in documents:
 		doc["uploaded_by"] = g.username	
 	
 def before_fetch_item_file(_id, document):
-	if not ("accessible_by" in document.keys() and g.username in document["accessible_by"]) and not g.username in document["uploaded_by"]:
+	if not ("accessible_by" in document.keys() and g.username == document["accessible_by"]) and not g.username == document["uploaded_by"]:
 		abort(401, "You don't have access to this file.") 
 
 #~ app = Eve(auth=RadiusAuth)
