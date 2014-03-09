@@ -35,4 +35,5 @@ app.on_update_files += before_insert_files
 
 app.on_fetch_item_file += before_fetch_item_file
 
-app.run()
+if __name__ == '__main__':
+	app.run()
