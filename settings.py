@@ -1,7 +1,7 @@
 from tokenauth import TokenOverrideAuth
 	
 
-SERVER_NAME = '127.0.0.1:5000'
+#SERVER_NAME = '127.0.0.1:5000'
 DEBUG = True
 
 # Use these to connect to a specific mongo instance.
@@ -59,6 +59,12 @@ files_schema = {
 		'required': True
 		#~ 'type': 'list', 
 		#~ 'items': [{'type': 'string'}]
+	},
+	'signature': {
+		'type': 'string'
+	},
+	'session_key': {
+		'type': 'string'
 	}
 }
 
