@@ -36,6 +36,7 @@ user_schema = {
 users = {
 	'schema': user_schema,
 	'authentication': TokenOverrideAuth(),
+	'query_objectid_as_string': True
 }
 
 
